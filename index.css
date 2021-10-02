@@ -1,0 +1,47 @@
+#section1 {
+    background: linear-gradient(to bottom right, #3399ff 4%, #ffffff 85%);
+
+}
+#section2{
+    background: linear-gradient(to left, #ffffff -24%, #0099ff 241%);}
+
+.card{
+    background: linear-gradient(to bottom, #ffffff 0%, #0099ff 323%);
+}
+
+
+
+
+.card-body{
+    font-family: "Calibri Light";
+    font-size: 15px;
+}
+.card-header{
+    font-family: "Calibri Light";
+    font-size: 18px;
+}
+#first{
+    text-align: center
+}
+#hey{
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Segoe UI Semibold';
+    font-style: italic;
+    color: indigo;
+}
+#name1{
+    text-align: center;font-family:'Sitka Heading';font-size: 25px;
+}
+body{
+    text-align:justify;
+    padding: 10px;
+}
+.second
+{
+
+    text-align: justify;
+    font-size: 15px;
+    font-family: "Calibri Light";
+    color: black;
+}
