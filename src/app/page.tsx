@@ -119,9 +119,10 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
+    const show = new Set(["Leetcode", "Database_Systems_project", "ResourceFull", "boston-house-prices-prediction", "network-based-app-dev"]);
     fetch("https://api.github.com/users/manaswini1920/repos?sort=updated&per_page=30")
       .then((r) => r.json())
-      .then((d: Repo[]) => setRepos(d.filter((r) => !r.fork && r.name !== "manaswini1920.github.io" && r.name !== "manaswiniragamouni1.github.io")))
+      .then((d: Repo[]) => setRepos(d.filter((r) => show.has(r.name))))
       .catch(() => setRepos([]));
   }, []);
 
