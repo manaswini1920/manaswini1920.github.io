@@ -5,7 +5,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   ChevronRight, ExternalLink, Github, Linkedin, Mail, BookOpen,
   Shield, Database, Cpu, GitPullRequest, Layers, Zap, Lock, Search,
-  ArrowRight, Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
 /* ── 3D Tilt ── */
@@ -39,19 +39,23 @@ function Num({ n, label }: { n: number; label: string }) {
 /* ── Types ── */
 interface PR { title: string; html_url: string; repository_url: string; created_at: string; state: string; pull_request?: { merged_at: string | null } }
 
-/* ── Architecture nodes ── */
+/* ── Architecture nodes with descriptions ── */
 const archNodes = [
-  { id: "client", label: "Client Request", x: 50, y: 8, icon: Zap, color: "bg-orange-500" },
-  { id: "api", label: "REST APIs (15+)", x: 50, y: 25, icon: Layers, color: "bg-blue-500" },
-  { id: "workflow", label: "Step Functions", x: 25, y: 42, icon: Cpu, color: "bg-violet-500" },
-  { id: "security", label: "IAM / STS", x: 75, y: 42, icon: Lock, color: "bg-emerald-500" },
-  { id: "data", label: "OpenSearch / DynamoDB", x: 50, y: 60, icon: Database, color: "bg-cyan-500" },
-  { id: "detect", label: "Detection Engine", x: 50, y: 78, icon: Shield, color: "bg-rose-500" },
+  { id: "client", label: "Client Request", x: 50, y: 8, icon: Zap, color: "bg-orange-500", desc: "Incoming API calls from customer applications — authenticated via IAM and routed to the appropriate service endpoint." },
+  { id: "api", label: "REST APIs (15+)", x: 50, y: 25, icon: Layers, color: "bg-blue-500", desc: "Customer-facing APIs for use-case lifecycle, findings search, detection rules (SIGMA/SQL/PPL), and data registry management." },
+  { id: "workflow", label: "Step Functions", x: 20, y: 45, icon: Cpu, color: "bg-violet-500", desc: "Provisioning and de-provisioning workflows that orchestrate parallel creation of collections, pipelines, queues, and IAM roles." },
+  { id: "security", label: "IAM / STS", x: 80, y: 45, icon: Lock, color: "bg-emerald-500", desc: "Cross-account access via STS AssumeRole with external IDs and trust policy validation to isolate multi-tenant environments." },
+  { id: "data", label: "OpenSearch / DynamoDB", x: 50, y: 65, icon: Database, color: "bg-cyan-500", desc: "Distributed data layer for security telemetry indexing, metadata storage, and cross-account state synchronization." },
+  { id: "detect", label: "Detection Engine", x: 50, y: 85, icon: Shield, color: "bg-rose-500", desc: "Rule evaluation engine processing SIGMA, SQL, and PPL detection rules against ingested security events in near real-time." },
 ];
 
 const archEdges = [
-  [50, 14, 50, 22], [50, 31, 25, 39], [50, 31, 75, 39],
-  [25, 48, 50, 57], [75, 48, 50, 57], [50, 66, 50, 75],
+  { x1: 50, y1: 14, x2: 50, y2: 21 },
+  { x1: 50, y1: 31, x2: 20, y2: 41 },
+  { x1: 50, y1: 31, x2: 80, y2: 41 },
+  { x1: 20, y1: 51, x2: 50, y2: 61 },
+  { x1: 80, y1: 51, x2: 50, y2: 61 },
+  { x1: 50, y1: 71, x2: 50, y2: 81 },
 ];
 
 /* ── Engineering principles ── */
@@ -95,12 +99,8 @@ const projects = [
   },
 ];
 
-/* ── What I'd build next ── */
-const nextIdeas = [
-  { title: "Predictive Auto-Scaling", body: "ML-driven scaling that anticipates workload patterns instead of reacting to thresholds." },
-  { title: "Zero-Config Observability", body: "Automatic distributed tracing and anomaly detection without manual instrumentation." },
-  { title: "Self-Healing Data Pipelines", body: "Ingestion pipelines that detect schema drift and data quality issues, then auto-remediate." },
-];
+/* ── GitHub Repo type ── */
+interface Repo { name: string; description: string | null; html_url: string; language: string | null; stargazers_count: number; fork: boolean }
 
 const skills = ["Java","Python","C++","C","SQL","JavaScript","AWS Lambda","Step Functions","S3","DynamoDB","ECS","SQS","SNS","EventBridge","IAM","CloudFormation","CDK","Aurora MySQL","OpenSearch","Microservices","Event-Driven Systems","Reliability Engineering","Fault Tolerance","Workflow Orchestration","Multi-Tenant Platforms"];
 
@@ -110,11 +110,19 @@ export default function Page() {
   const [prs, setPrs] = useState<PR[]>([]);
   const [loading, setLoading] = useState(true);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [repos, setRepos] = useState<Repo[]>([]);
   const filtered = useMemo(() => q.trim() ? skills.filter((s) => s.toLowerCase().includes(q.toLowerCase())) : skills, [q]);
 
   useEffect(() => {
     fetch("https://api.github.com/search/issues?q=author:manaswini1920+type:pr+org:opensearch-project&per_page=100")
       .then((r) => r.json()).then((d) => setPrs(d.items || [])).catch(() => setPrs([])).finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    fetch("https://api.github.com/users/manaswini1920/repos?sort=updated&per_page=30")
+      .then((r) => r.json())
+      .then((d: Repo[]) => setRepos(d.filter((r) => !r.fork && r.name !== "manaswini1920.github.io" && r.name !== "manaswiniragamouni1.github.io")))
+      .catch(() => setRepos([]));
   }, []);
 
   return (
@@ -186,26 +194,33 @@ export default function Page() {
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-500">Interactive</p>
           <h2 className="mt-3 text-3xl font-black">System Architecture I&apos;ve Built</h2>
-          <p className="mt-3 max-w-2xl text-slate-600">Hover over components to explore the multi-tenant security analytics platform architecture.</p>
-          <div className="relative mt-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm" style={{ height: 420 }}>
-            <svg className="absolute inset-0 h-full w-full" style={{ zIndex: 0 }}>
-              {archEdges.map(([x1, y1, x2, y2], i) => (
-                <line key={i} x1={`${x1}%`} y1={`${y1}%`} x2={`${x2}%`} y2={`${y2}%`} stroke="#e2e8f0" strokeWidth="2" strokeDasharray="6 4" />
+          <p className="mt-3 max-w-2xl text-slate-600">Hover over components to see what each layer does in the multi-tenant security analytics platform.</p>
+          <div className="relative mt-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm" style={{ height: 480 }}>
+            <svg className="absolute inset-8 h-[calc(100%-64px)] w-[calc(100%-64px)]" style={{ zIndex: 0 }}>
+              {archEdges.map((e, i) => (
+                <line key={i} x1={`${e.x1}%`} y1={`${e.y1}%`} x2={`${e.x2}%`} y2={`${e.y2}%`} stroke="#e2e8f0" strokeWidth="2" />
               ))}
             </svg>
             {archNodes.map((node) => {
               const Icon = node.icon;
               const hovered = hoveredNode === node.id;
               return (
-                <motion.div key={node.id} onMouseEnter={() => setHoveredNode(node.id)} onMouseLeave={() => setHoveredNode(null)}
-                  animate={{ scale: hovered ? 1.15 : 1 }}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                  style={{ left: `${node.x}%`, top: `${node.y}%`, zIndex: 1 }}>
-                  <div className={`flex items-center gap-2 rounded-2xl border ${hovered ? "border-orange-300 shadow-lg shadow-orange-500/10" : "border-slate-200"} bg-white px-4 py-2.5 transition`}>
+                <div key={node.id} onMouseEnter={() => setHoveredNode(node.id)} onMouseLeave={() => setHoveredNode(null)}
+                  className="absolute -translate-x-1/2 -translate-y-1/2"
+                  style={{ left: `${node.x}%`, top: `${node.y}%`, zIndex: 2 }}>
+                  <motion.div animate={{ scale: hovered ? 1.1 : 1 }} className={`flex items-center gap-2 rounded-2xl border ${hovered ? "border-orange-300 shadow-lg shadow-orange-500/10" : "border-slate-200"} bg-white px-4 py-2.5 transition cursor-default`}>
                     <div className={`rounded-lg ${node.color} p-1.5`}><Icon className="h-3.5 w-3.5 text-white" /></div>
                     <span className="text-sm font-semibold whitespace-nowrap">{node.label}</span>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                  <AnimatePresence>
+                    {hovered && (
+                      <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 4 }}
+                        className="absolute left-1/2 top-full mt-2 -translate-x-1/2 w-72 rounded-xl border border-slate-200 bg-white p-3 shadow-xl z-10">
+                        <p className="text-xs leading-5 text-slate-600">{node.desc}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               );
             })}
           </div>
@@ -302,19 +317,28 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── WHAT I'D BUILD NEXT ── */}
+      {/* ── PERSONAL PROJECTS (dynamic from GitHub) ── */}
       <section className="mx-auto max-w-6xl px-6 pb-20">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-500">Forward Thinking</p>
-        <h2 className="mt-3 text-3xl font-black">What I&apos;d Build Next</h2>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {nextIdeas.map((idea, i) => (
-            <Tilt key={idea.title}>
-              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="rounded-3xl border border-dashed border-slate-300 bg-white/50 p-6 transition hover:border-orange-300 hover:bg-white hover:shadow-md">
-                <Sparkles className="h-5 w-5 text-orange-400" />
-                <h3 className="mt-4 text-lg font-bold">{idea.title}</h3>
-                <p className="mt-2 leading-7 text-slate-600">{idea.body}</p>
-              </motion.div>
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-500">Side Projects</p>
+        <h2 className="mt-3 text-3xl font-black">Personal GitHub</h2>
+        <p className="mt-3 text-slate-600">Fetched live — updates automatically when I push new repos.</p>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {repos.length === 0 ? (
+            <p className="text-slate-400">Loading repos...</p>
+          ) : repos.map((r, i) => (
+            <Tilt key={r.name}>
+              <motion.a href={r.html_url} target="_blank" rel="noreferrer" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+                className="block rounded-3xl border border-slate-200 bg-white p-6 transition hover:border-orange-300 hover:shadow-md">
+                <div className="flex items-center justify-between">
+                  <Github className="h-5 w-5 text-slate-400" />
+                  {r.language && <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-500">{r.language}</span>}
+                </div>
+                <h3 className="mt-4 text-base font-bold">{r.name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-500 line-clamp-2">{r.description || "No description yet."}</p>
+                <div className="mt-4 flex items-center gap-1 text-xs text-slate-400">
+                  <ExternalLink className="h-3 w-3" /> View on GitHub
+                </div>
+              </motion.a>
             </Tilt>
           ))}
         </div>
