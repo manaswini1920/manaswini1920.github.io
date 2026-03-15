@@ -325,9 +325,9 @@ export default function Page() {
         <p className="mt-3 text-slate-600">Side projects I&apos;m actively working on.</p>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {[
-            { title: "Real-Time Anomaly Detection Engine", desc: "Stream processing pipeline using Kafka and Flink that detects anomalies in time-series metrics with sub-second latency. Pluggable ML models via gRPC.", tags: ["Rust", "Kafka", "Apache Flink", "gRPC"], status: "In Progress" },
-            { title: "Kubernetes Operator for Stateful Workloads", desc: "Custom K8s operator that automates scaling, failover, and backup for stateful databases. Built with Go and the Operator SDK.", tags: ["Go", "Kubernetes", "Operator SDK"], status: "In Progress" },
-            { title: "LLM-Powered Incident Triage", desc: "RAG-based system that ingests runbooks and past postmortems to auto-suggest root causes and remediation steps during on-call incidents.", tags: ["Python", "LangChain", "OpenAI", "Vector DB"], status: "Planning" },
+            { title: "Distributed Workflow Engine", desc: "Lightweight orchestration engine inspired by Step Functions. Supports parallel execution, retry policies, and dead-letter queues with a visual DAG debugger.", tags: ["Java", "DynamoDB", "SQS", "React"], status: "In Progress" },
+            { title: "Real-Time Threat Detection Pipeline", desc: "Stream processing pipeline that ingests security events, evaluates SIGMA detection rules, and pushes findings to OpenSearch with sub-second latency.", tags: ["Java", "OpenSearch", "EventBridge", "Lambda"], status: "In Progress" },
+            { title: "Database Connection Pool Analyzer", desc: "Profiling tool that monitors MySQL connection pool behavior under load, detects leaks, and visualizes idle/active connection patterns over time.", tags: ["C++", "Python", "MySQL", "Grafana"], status: "Planning" },
           ].map((p, i) => (
             <Tilt key={p.title}>
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
