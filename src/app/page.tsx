@@ -18,6 +18,7 @@ import {
   Moon,
   Terminal,
   GitPullRequest,
+  BookOpen,
 } from "lucide-react";
 
 /* ── Animated Counter ── */
@@ -41,7 +42,7 @@ function Counter({ target, label }: { target: number; label: string }) {
 
   return (
     <div ref={ref} className="text-center">
-      <p className="text-4xl font-bold text-white">{count}+</p>
+      <p className="text-4xl font-bold text-amber-400">{count}+</p>
       <p className="mt-1 text-sm text-slate-400">{label}</p>
     </div>
   );
@@ -104,11 +105,11 @@ const projects = [
     icon: Cpu,
     accent: "from-emerald-500/20 to-teal-500/10",
     summary: "Hands-on production ownership across on-call, incident response, debugging, and cross-team resolution of critical failures.",
-    metrics: ["128+ incidents resolved", "13 on-call rotations", "Cross-team RCA"],
+    metrics: ["Cross-team coordination", "Production RCA leadership", "Fleet-wide mitigations"],
     details: [
-      "Led incident response and root cause analysis for production failures including file descriptor leaks and replication issues.",
-      "Coordinated fixes across database engine, infrastructure, and reliability teams for high-severity issues.",
-      "Ranked among top engineers for ticket resolution rate while supporting large-scale production systems.",
+      "Led incident response and root cause analysis for production failures including file descriptor leaks and replication issues, coordinating fixes across database engine, infrastructure, and reliability teams.",
+      "Drove fleet-wide mitigations for critical customer escalations across 100+ production clusters.",
+      "Established operational runbooks and trained engineers on production tooling and debugging procedures.",
     ],
   },
 ];
@@ -170,23 +171,24 @@ export default function PortfolioPage() {
     fetchPRs();
   }, []);
 
-  const bg = dark ? "bg-slate-950 text-slate-100" : "bg-white text-slate-900";
-  const card = dark ? "border-slate-800 bg-slate-900/70" : "border-slate-200 bg-slate-50";
-  const card2 = dark ? "border-slate-800 bg-slate-900/60" : "border-slate-200 bg-white";
-  const card3 = dark ? "border-slate-800 bg-slate-950/50" : "border-slate-200 bg-slate-100";
+  const bg = dark ? "bg-[#0a0f1e] text-slate-100" : "bg-[#fafaf8] text-slate-900";
+  const card = dark ? "border-[#1a2340] bg-[#0f1729]/80" : "border-slate-200 bg-slate-50";
+  const card2 = dark ? "border-[#1a2340] bg-[#0f1729]/60" : "border-slate-200 bg-white";
+  const card3 = dark ? "border-[#1a2340] bg-[#080d1a]/70" : "border-slate-200 bg-slate-100";
   const muted = dark ? "text-slate-400" : "text-slate-500";
-  const mutedBorder = dark ? "border-slate-700" : "border-slate-300";
+  const mutedBorder = dark ? "border-[#2a3558]" : "border-slate-300";
   const heading = dark ? "text-white" : "text-slate-900";
   const body = dark ? "text-slate-300" : "text-slate-600";
   const label = dark ? "text-slate-500" : "text-slate-400";
+  const accent = dark ? "text-amber-400" : "text-amber-600";
 
   return (
     <main className={`min-h-screen transition-colors duration-300 ${bg}`}>
-      {dark && <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.15),_transparent_30%),radial-gradient(circle_at_80%_20%,_rgba(168,85,247,0.12),_transparent_25%)]" />}
+      {dark && <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(217,170,75,0.08),_transparent_30%),radial-gradient(circle_at_80%_20%,_rgba(99,130,200,0.08),_transparent_25%)]" />}
 
       {/* Theme toggle */}
       <div className="fixed right-5 top-5 z-50">
-        <button onClick={() => setDark(!dark)} className={`rounded-full p-3 backdrop-blur transition ${dark ? "bg-slate-800/80 text-white hover:bg-slate-700" : "bg-slate-200 text-slate-900 hover:bg-slate-300"}`}>
+        <button onClick={() => setDark(!dark)} className={`rounded-full p-3 backdrop-blur transition ${dark ? "bg-[#1a2340]/80 text-amber-400 hover:bg-[#1a2340]" : "bg-slate-200 text-slate-900 hover:bg-slate-300"}`}>
           {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </button>
       </div>
@@ -205,9 +207,10 @@ export default function PortfolioPage() {
               I build distributed infrastructure across <span className={`font-semibold ${heading}`}>database engines</span> and <span className={`font-semibold ${heading}`}>security analytics platforms</span> with a strong focus on reliability, scalability, and operational excellence.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="mailto:manaswini1920@gmail.com" className={`inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-medium transition hover:-translate-y-0.5 ${dark ? "bg-white text-slate-950" : "bg-slate-900 text-white"}`}><Mail className="h-4 w-4" />Contact</a>
+              <a href="mailto:manaswini1920@gmail.com" className={`inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-medium transition hover:-translate-y-0.5 ${dark ? "bg-amber-400 text-[#0a0f1e]" : "bg-slate-900 text-white"}`}><Mail className="h-4 w-4" />Contact</a>
               <a href="https://github.com/manaswini1920" target="_blank" rel="noreferrer" className={`inline-flex items-center gap-2 rounded-2xl border ${mutedBorder} px-5 py-3 font-medium ${heading} transition hover:opacity-80`}><Github className="h-4 w-4" />GitHub</a>
               <a href="https://www.linkedin.com/in/manaswini-ragamouni" target="_blank" rel="noreferrer" className={`inline-flex items-center gap-2 rounded-2xl border ${mutedBorder} px-5 py-3 font-medium ${heading} transition hover:opacity-80`}><Linkedin className="h-4 w-4" />LinkedIn</a>
+              <a href="https://medium.com/@manaswini1920" target="_blank" rel="noreferrer" className={`inline-flex items-center gap-2 rounded-2xl border ${mutedBorder} px-5 py-3 font-medium ${heading} transition hover:opacity-80`}><BookOpen className="h-4 w-4" />Medium</a>
             </div>
           </div>
 
@@ -233,10 +236,10 @@ export default function PortfolioPage() {
       <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mx-auto max-w-7xl px-6 pb-10 md:px-10">
         <div className={`rounded-[28px] border ${card2} p-8`}>
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            <Counter target={100} label="Production Clusters" />
-            <Counter target={15} label="Customer APIs Shipped" />
-            <Counter target={128} label="Incidents Resolved" />
-            <Counter target={13} label="On-Call Rotations" />
+            <Counter target={100} label="Production Clusters Served" />
+            <Counter target={15} label="Customer APIs Designed" />
+            <Counter target={4} label="Years at AWS" />
+            <Counter target={1} label="Patent (Pending)" />
           </div>
         </div>
       </motion.section>
@@ -245,7 +248,7 @@ export default function PortfolioPage() {
       <section className="mx-auto max-w-7xl px-6 pb-6 md:px-10">
         <div className="flex flex-wrap gap-3">
           {["overview","experience","skills","open-source","terminal"].map((tab) => (
-            <button key={tab} onClick={() => setActiveTab(tab)} className={`rounded-full px-4 py-2 text-sm font-medium transition ${activeTab === tab ? (dark ? "bg-white text-slate-950" : "bg-slate-900 text-white") : `border ${mutedBorder} ${dark ? "bg-slate-900/70" : "bg-white"} ${body} hover:opacity-80`}`}>
+            <button key={tab} onClick={() => setActiveTab(tab)} className={`rounded-full px-4 py-2 text-sm font-medium transition ${activeTab === tab ? (dark ? "bg-amber-400 text-[#0a0f1e]" : "bg-slate-900 text-white") : `border ${mutedBorder} ${dark ? "bg-[#0f1729]/70" : "bg-white"} ${body} hover:opacity-80`}`}>
               {tab === "open-source" ? "Open Source" : tab[0].toUpperCase() + tab.slice(1)}
             </button>
           ))}
@@ -261,8 +264,8 @@ export default function PortfolioPage() {
               <div className="mt-6 space-y-6">
                 {timeline.map((item, index) => (
                   <motion.div key={item.title} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="relative pl-8">
-                    <div className={`absolute left-0 top-1 h-3 w-3 rounded-full ${dark ? "bg-white" : "bg-slate-900"}`} />
-                    {index !== timeline.length - 1 && <div className={`absolute left-[5px] top-5 h-[calc(100%+12px)] w-px ${dark ? "bg-slate-700" : "bg-slate-300"}`} />}
+                    <div className={`absolute left-0 top-1 h-3 w-3 rounded-full ${dark ? "bg-amber-400" : "bg-slate-900"}`} />
+                    {index !== timeline.length - 1 && <div className={`absolute left-[5px] top-5 h-[calc(100%+12px)] w-px ${dark ? "bg-[#2a3558]" : "bg-slate-300"}`} />}
                     <p className={`text-xs uppercase tracking-[0.25em] ${label}`}>{item.year}</p>
                     <h3 className={`mt-1 text-lg font-semibold ${heading}`}>{item.title}</h3>
                     <p className={`mt-2 leading-7 ${body}`}>{item.body}</p>
@@ -431,8 +434,8 @@ export default function PortfolioPage() {
       {/* ── TERMINAL ── */}
       {activeTab === "terminal" && (
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-7xl px-6 py-6 md:px-10">
-          <div className="overflow-hidden rounded-[28px] border border-slate-700 bg-slate-950 shadow-2xl">
-            <div className="flex items-center gap-2 border-b border-slate-800 px-5 py-3">
+          <div className="overflow-hidden rounded-[28px] border border-[#1a2340] bg-[#080d1a] shadow-2xl">
+            <div className="flex items-center gap-2 border-b border-[#1a2340] px-5 py-3">
               <div className="h-3 w-3 rounded-full bg-red-500" />
               <div className="h-3 w-3 rounded-full bg-yellow-500" />
               <div className="h-3 w-3 rounded-full bg-green-500" />
@@ -441,12 +444,12 @@ export default function PortfolioPage() {
             <div className="p-6 font-mono text-sm leading-8">
               {terminalLines.map((line, i) => (
                 <motion.div key={line.cmd} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
-                  <p className="text-green-400">$ {line.cmd}</p>
+                  <p className="text-amber-400">$ {line.cmd}</p>
                   <p className="text-slate-300">{line.out}</p>
                   {i < terminalLines.length - 1 && <div className="my-2" />}
                 </motion.div>
               ))}
-              <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: terminalLines.length * 0.15 }} className="mt-4 text-green-400">$ <span className="animate-pulse">▊</span></motion.p>
+              <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: terminalLines.length * 0.15 }} className="mt-4 text-amber-400">$ <span className="animate-pulse">▊</span></motion.p>
             </div>
           </div>
         </motion.section>
@@ -472,7 +475,7 @@ export default function PortfolioPage() {
 
       {/* ── FOOTER ── */}
       <section className="mx-auto max-w-7xl px-6 py-12 md:px-10">
-        <div className={`rounded-[28px] border ${dark ? "border-slate-800 bg-gradient-to-r from-slate-900 to-slate-950" : "border-slate-200 bg-gradient-to-r from-slate-50 to-white"} p-8`}>
+        <div className={`rounded-[28px] border ${dark ? "border-[#1a2340] bg-gradient-to-r from-[#0f1729] to-[#0a0f1e]" : "border-slate-200 bg-gradient-to-r from-slate-50 to-white"} p-8`}>
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <div>
               <p className={`text-sm uppercase tracking-[0.3em] ${label}`}>Open Source & Contact</p>
@@ -480,7 +483,7 @@ export default function PortfolioPage() {
               <p className={`mt-3 max-w-3xl leading-7 ${body}`}>I contribute to OpenSearch open source projects and enjoy working on distributed infrastructure, database systems, and secure multi-tenant platforms.</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <a href="https://github.com/manaswini1920" target="_blank" rel="noreferrer" className={`inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-medium ${dark ? "bg-white text-slate-950" : "bg-slate-900 text-white"}`}><ExternalLink className="h-4 w-4" />View GitHub</a>
+              <a href="https://github.com/manaswini1920" target="_blank" rel="noreferrer" className={`inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-medium ${dark ? "bg-amber-400 text-[#0a0f1e]" : "bg-slate-900 text-white"}`}><ExternalLink className="h-4 w-4" />View GitHub</a>
               <a href="mailto:manaswini1920@gmail.com" className={`inline-flex items-center gap-2 rounded-2xl border ${mutedBorder} px-5 py-3 font-medium ${heading}`}><Mail className="h-4 w-4" />Email Me</a>
             </div>
           </div>
