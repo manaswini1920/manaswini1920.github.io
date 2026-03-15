@@ -318,6 +318,34 @@ export default function Page() {
         </div>
       </section>
 
+      {/* ── IN PROGRESS / UPCOMING PROJECTS ── */}
+      <section className="mx-auto max-w-6xl px-6 pb-20">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-500">Building</p>
+        <h2 className="mt-3 text-3xl font-black">In Progress</h2>
+        <p className="mt-3 text-slate-600">Side projects I&apos;m actively working on.</p>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {[
+            { title: "Real-Time Anomaly Detection Engine", desc: "Stream processing pipeline using Kafka and Flink that detects anomalies in time-series metrics with sub-second latency. Pluggable ML models via gRPC.", tags: ["Rust", "Kafka", "Apache Flink", "gRPC"], status: "In Progress" },
+            { title: "Kubernetes Operator for Stateful Workloads", desc: "Custom K8s operator that automates scaling, failover, and backup for stateful databases. Built with Go and the Operator SDK.", tags: ["Go", "Kubernetes", "Operator SDK"], status: "In Progress" },
+            { title: "LLM-Powered Incident Triage", desc: "RAG-based system that ingests runbooks and past postmortems to auto-suggest root causes and remediation steps during on-call incidents.", tags: ["Python", "LangChain", "OpenAI", "Vector DB"], status: "Planning" },
+          ].map((p, i) => (
+            <Tilt key={p.title}>
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                className="rounded-3xl border border-dashed border-slate-300 bg-white/80 p-6 transition hover:border-orange-300 hover:bg-white hover:shadow-md">
+                <div className="flex items-center justify-between">
+                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${p.status === "In Progress" ? "bg-amber-50 text-amber-600 border border-amber-200" : "bg-slate-50 text-slate-500 border border-slate-200"}`}>{p.status}</span>
+                </div>
+                <h3 className="mt-4 text-lg font-bold">{p.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-500">{p.desc}</p>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {p.tags.map((t) => (<span key={t} className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs text-slate-500">{t}</span>))}
+                </div>
+              </motion.div>
+            </Tilt>
+          ))}
+        </div>
+      </section>
+
       {/* ── PERSONAL PROJECTS (dynamic from GitHub) ── */}
       <section className="mx-auto max-w-6xl px-6 pb-20">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-500">Side Projects</p>
